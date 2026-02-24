@@ -1,4 +1,4 @@
-# 🎵 OpenClaw Skill: MP4 to MP3 Extractor
+# 🎵 OpenClaw Skills: MP4 to MP3 Extractor
 
 [![OpenClaw Skill](https://img.shields.io/badge/OpenClaw-Skill-blue.svg)](https://github.com/openclaw/openclaw)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
@@ -41,7 +41,10 @@
 # 进入你的 OpenClaw skills 目录
 cd ~/.openclaw/skills  # 视你的实际安装路径而定
 
-# 克隆本仓库
-git clone [https://github.com/你的用户名/mp4-to-mp3-extractor.git](https://github.com/你的用户名/mp4-to-mp3-extractor.git)
+# 安装skills
+npx skills add https://github.com/wangminrui2022/mp4-to-mp3-extractor
 
 # 重启你的 OpenClaw Agent 让其重新加载 Skill 索引
+
+#现在你可以在聊天界面里直接对你的 Agent 说：
+帮我把  /home/ai-wmr/Videos/Tutorials 里面的 mp4 全都提取成 mp3，放到  /home/ai-wmr/Audio/Tutorials里，注意保持里面的文件夹结构别乱。
