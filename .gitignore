@@ -1,18 +1,44 @@
-# Build and Release Folders
-bin-debug/
-bin-release/
-[Oo]bj/
-[Bb]in/
+# =========================
+# Python 缓存和编译文件
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
 
-# Other files and folders
-.settings/
+# =========================
+# 虚拟环境 (核心忽略项)
+# =========================
+venv/
+env/
+ENV/
+.venv/
 
-# Executables
-*.swf
-*.air
-*.ipa
-*.apk
+# =========================
+# 操作系统生成文件
+# =========================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
 
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.cab
+*.lnk
+
+# =========================
+# IDE 和编辑器配置文件
+# =========================
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# =========================
+# 本地测试可能生成的输出目录
+# =========================
+*_audio_extracted/
+*.mp3
