@@ -31,8 +31,10 @@
 在运行此 Skills 之前，请确保宿主机（运行 OpenClaw 的机器）已安装以下系统级依赖：
 
 1. **Python 3.8 或更高版本**
-插件安装之后显示blocked，是没有找python，需要建立到标准路径的软链接，终端输入以下命令：
-**/usr/local/python312/bin/python3是python安装目录。*
+插件安装之后如果显示 `blocked`，通常是因为找不到 `python` 命令，需要建立到标准路径的软链接。
+> `/usr/local/python312/bin/python3` 是 Python 安装目录，请根据实际安装路径修改。
+在终端输入以下命令：
+```bash
 sudo ln -s /usr/local/python312/bin/python3 /usr/local/python312/bin/python
 sudo ln -s /usr/local/python312/bin/python3 /usr/bin/python
 
