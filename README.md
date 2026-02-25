@@ -70,9 +70,11 @@ npx skills add https://github.com/wangminrui2022/mp4-to-mp3-extractor
 Installation scope 选择 Global
 Installation method 选择 Copy to all agents (Independent copies for each agent)
 
-# 安装完成在以下两个目录可以看到该技能
+# 安装完成在以下两个目录可以看到该技能，Installation scope 选择 Global、Project（admin是当前系统登录用户名）
 ls ~/.openclaw/skills/mp4-to-mp3-extractor/
 ls /home/admin/.agents/skills/mp4-to-mp3-extractor/
+ls /opt/openclaw-2026.2.14/skills/mp4-to-mp3-extractor/
+ls /home/admin/.openclaw/skills/mp4-to-mp3-extractor/
 
 #现在你可以在聊天界面里直接对你的 Agent 说：
 请严格使用 skills 列表中的「mp4-to-mp3-extractor」技能完成以下任务：
