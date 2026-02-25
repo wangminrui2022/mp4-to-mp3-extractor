@@ -31,6 +31,26 @@
 在运行此 Skills 之前，请确保宿主机（运行 OpenClaw 的机器）已安装以下系统级依赖：
 
 1. **Python 3.8 或更高版本**
+   
+   > **🚧 常见排错：Skill 状态显示为 `blocked` 而非 `eligible`？**
+   > 
+   > 插件安装后如果状态为 `blocked`，通常是因为 OpenClaw 的后台环境找不到 `python` 命令，或者缺少系统级的虚拟环境支持包。你可以通过建立标准路径的软链接并安装 `venv` 模块来解决。
+   > 
+   > **修复步骤：**
+   > *(注意：以下命令中的 `/usr/local/python312/bin/python3` 为示例 Python 安装路径，请务必根据你的实际安装路径进行替换。)*
+   > 
+   > ```bash
+   > # 1. 安装虚拟环境支持 (Debian/Ubuntu 系统必备)
+   > sudo apt update
+   > sudo apt install python3-venv
+   > 
+   > # 2. 建立软链接，确保 OpenClaw 能在标准路径下找到 python 命令
+   > sudo ln -s /usr/local/python312/bin/python3 /usr/local/python312/bin/python
+   > sudo ln -s /usr/local/python312/bin/python3 /usr/bin/python
+   > 
+   > # 3. 重启 OpenClaw 服务，使新的环境变量和路径生效
+   > systemctl --user restart openclaw-gateway
+   > ```
 2. **FFmpeg**: 必须将其添加到系统的环境变量 (PATH) 中。
    * *验证方法：在终端中输入 `ffmpeg -version` 和 `python --version`，若能正常输出版本号即可。*
 
