@@ -8,7 +8,7 @@ metadata:
     requires:
       bins:
         - ffmpeg
-        - python3
+        - python
 ---
 
 # MP4 to MP3 Extractor Skill
@@ -18,4 +18,4 @@ metadata:
 2. **默认目标**: 若用户未指定输出路径，默认设为 `[源目录]_audio`。
 3. **调用命令**: 直接使用系统 Python 运行脚本，脚本会自动处理虚拟环境的创建和切换。
    ```bash
-   python3 ./skills/mp4-to-mp3-extractor/scripts/extract.py "<源目录>" "<目标目录>"
+   python ./skills/mp4-to-mp3-extractor/scripts/extract.py "<源目录>" "<目标目录>"
