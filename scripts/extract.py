@@ -1,3 +1,13 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8, -*-
+
+"""
+Skill Name: MP4 to MP3 Extractor for OpenClaw
+Author: 王岷瑞/https://github.com/wangminrui2022
+License: MIT License
+Description: 批量将指定目录下的 .mp4 视频文件提取为 .mp3 音频文件，保持原文件夹结构。
+             具备自动创建虚拟环境和日志循环管理功能。
+"""
 import os
 import sys
 import subprocess
