@@ -76,6 +76,16 @@ ls /home/admin/.agents/skills/mp4-to-mp3-extractor/
 ls /opt/openclaw-2026.2.14/skills/mp4-to-mp3-extractor/
 ls /home/admin/.openclaw/skills/mp4-to-mp3-extractor/
 
+#windows本地安装命令
+下载到本地磁盘并解压 https://github.com/wangminrui2022/mp4-to-mp3-extractor.git
+cd D:\openclaw-2026.2.14\
+npx skills add D:\mp4-to-mp3-extractor
+
+#安装完后目录，日志可在该目录查看👀
+C:\Users\Administrator\.openclaw\skills\mp4-to-mp3-extractor\
+D:\openclaw-2026.2.14\skills\mp4-to-mp3-extractor\
+C:\Users\Administrator\.agents\skills\mp4-to-mp3-extractor\
+
 #现在你可以在聊天界面里直接对你的 Agent 说：
 请严格使用 skills 列表中的「mp4-to-mp3-extractor」技能完成以下任务：
 1. 递归遍历源目录 /home/admin/Videos/Tutorials 下所有 .mp4 文件（包括所有子文件夹）。
