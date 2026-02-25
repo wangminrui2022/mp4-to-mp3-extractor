@@ -31,6 +31,11 @@
 在运行此 Skills 之前，请确保宿主机（运行 OpenClaw 的机器）已安装以下系统级依赖：
 
 1. **Python 3.8 或更高版本**
+插件安装之后显示blocked，是没有找python，需要建立到标准路径的软链接，终端输入以下命令：
+**/usr/local/python312/bin/python3是python安装目录。*
+sudo ln -s /usr/local/python312/bin/python3 /usr/local/python312/bin/python
+sudo ln -s /usr/local/python312/bin/python3 /usr/bin/python
+
 2. **FFmpeg**: 必须将其添加到系统的环境变量 (PATH) 中。
    * *验证方法：在终端中输入 `ffmpeg -version` 和 `python --version`，若能正常输出版本号即可。*
 
