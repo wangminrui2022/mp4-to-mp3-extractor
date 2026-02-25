@@ -13,6 +13,7 @@ import sys
 import subprocess
 import venv
 import logging
+import shutil
 from logging.handlers import TimedRotatingFileHandler
 from pathlib import Path
 
@@ -51,23 +52,35 @@ def setup_logger():
 
 logger = setup_logger()
 
+def get_python_cmd():
+    """动态获取当前系统可用的 Python 命令"""
+    for cmd in ["python3", "python"]:
+        if shutil.which(cmd):
+            return cmd
+    return sys.executable # 如果都找不到，回退到当前运行的解释器
+
 def setup_venv():
     """检查并确保在虚拟环境中运行"""
+    # 1. 确定虚拟环境内部的 Python 路径
     if os.name == "nt":
         venv_python = VENV_DIR / "Scripts" / "python.exe"
     else:
         venv_python = VENV_DIR / "bin" / "python"
 
+    # 2. 如果已经在虚拟环境中，直接返回
     if sys.executable.lower() == str(venv_python).lower():
         return 
 
+    # 3. 如果没在虚拟环境，先检查是否存在，不存在则创建
     if not VENV_DIR.exists():
-        logger.info(f"未检测到虚拟环境，正在创建: {VENV_DIR}")
-        venv.create(VENV_DIR, with_pip=True)
+        logger.info(f"正在创建虚拟环境...")
+        # 动态获取系统 Python 命令来创建 venv
+        base_python = get_python_cmd()
+        subprocess.run([base_python, "-m", "venv", str(VENV_DIR)], check=True)
         logger.info("虚拟环境创建成功。")
 
-    logger.info("正在切换至虚拟环境上下文...")
-    # 使用虚拟环境执行时，日志会继续记录
+    # 4. 切换到虚拟环境 Python 执行
+    logger.info("切换至虚拟环境上下文...")
     result = subprocess.run([str(venv_python), str(SCRIPT_PATH)] + sys.argv[1:])
     sys.exit(result.returncode)
 
