@@ -1,11 +1,11 @@
 # 🎵 OpenClaw Skills: MP4 to MP3 Extractor
 
-[![OpenClaw Skill](https://img.shields.io/badge/OpenClaw-Skill-blue.svg)](https://github.com/openclaw/openclaw)
+[![OpenClaw Skills](https://img.shields.io/badge/OpenClaw-Skill-blue.svg)](https://github.com/openclaw/openclaw)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![FFmpeg](https://img.shields.io/badge/FFmpeg-Required-orange.svg)](https://ffmpeg.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-这是一个为 [OpenClaw](https://github.com/openclaw/openclaw) 量身定制的本地自动化 Skill。它能批量扫描指定目录及其子目录下的 `.mp4` 视频文件，并利用 `ffmpeg` 高效提取出 `.mp3` 音频。
+这是一个为 [OpenClaw](https://github.com/openclaw/openclaw) 量身定制的本地自动化 Skills。它能批量扫描指定目录及其子目录下的 `.mp4` 视频文件，并利用 `ffmpeg` 高效提取出 `.mp3` 音频。
 
 最核心的亮点是：它不仅能**完美保留原始的文件夹多级层级结构**，还具备**自引导（Self-bootstrapping）能力**，能够全自动创建和管理 Python 虚拟环境，实现真正的“开箱即用”。
 
@@ -28,7 +28,7 @@
 
 ## 🛠️ 前置要求
 
-在运行此 Skill 之前，请确保宿主机（运行 OpenClaw 的机器）已安装以下系统级依赖：
+在运行此 Skills 之前，请确保宿主机（运行 OpenClaw 的机器）已安装以下系统级依赖：
 
 1. **Python 3.8 或更高版本**
 2. **FFmpeg**: 必须将其添加到系统的环境变量 (PATH) 中。
@@ -47,7 +47,13 @@ cd ~/.openclaw/skills  # 视你的实际安装路径而定
 # 安装skills
 npx skills add https://github.com/wangminrui2022/mp4-to-mp3-extractor
 
-# 重启你的 OpenClaw Agent 让其重新加载 Skill 索引
+# 重启你的 OpenClaw Agent 让其重新加载 Skills 索引
 
 #现在你可以在聊天界面里直接对你的 Agent 说：
-帮我把  /home/ai-wmr/Videos/Tutorials 里面的 mp4 全都提取成 mp3，放到  /home/ai-wmr/Audio/Tutorials里，注意保持里面的文件夹结构别乱。
+请严格使用 skills 列表中的「mp4-to-mp3-extractor」技能完成以下任务：
+1. 递归遍历源目录 /home/ai-wmr/Videos/Tutorials 下所有 .mp4 文件（包括所有子文件夹）。
+2. 对每个找到的 .mp4 文件，使用 mp4-to-mp3-extractor 技能提取音频，转换为 .mp3 文件。
+3. 输出路径为 /home/ai-wmr/Audio/Tutorials，并完全保持原有的文件夹结构（例如：源文件在 Videos/Tutorials/xxx/yyy/abc.mp4，则输出必须是 Audio/Tutorials/xxx/yyy/abc.mp3）。
+4. 如果目标子目录不存在，请自动创建。
+5. mp3 文件名必须与原 mp4 文件名完全一致，仅将扩展名改为 .mp3。
+6. 批量处理所有文件，完成后告诉我总共转换了多少个文件以及是否全部成功。
