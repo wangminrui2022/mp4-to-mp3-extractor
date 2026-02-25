@@ -42,18 +42,23 @@
 
 ```bash
 # 进入你的 OpenClaw skills 目录
-cd ~/.openclaw/skills  # 视你的实际安装路径而定
+cd /opt/openclaw-2026.2.14  # 视你的实际安装路径而定
 
 # 安装skills
 npx skills add https://github.com/wangminrui2022/mp4-to-mp3-extractor
+选项：
+Installation scope 选择 Global
+Installation method 选择 Copy to all agents (Independent copies for each agent)
 
-# 重启你的 OpenClaw Agent 让其重新加载 Skills 索引
+# 安装完成在以下两个目录可以看到该技能
+ls ~/.openclaw/skills/mp4-to-mp3-extractor/
+ls /home/admin/.agents/skills/mp4-to-mp3-extractor/
 
 #现在你可以在聊天界面里直接对你的 Agent 说：
 请严格使用 skills 列表中的「mp4-to-mp3-extractor」技能完成以下任务：
-1. 递归遍历源目录 /home/ai-wmr/Videos/Tutorials 下所有 .mp4 文件（包括所有子文件夹）。
+1. 递归遍历源目录 /home/admin/Videos/Tutorials 下所有 .mp4 文件（包括所有子文件夹）。
 2. 对每个找到的 .mp4 文件，使用 mp4-to-mp3-extractor 技能提取音频，转换为 .mp3 文件。
-3. 输出路径为 /home/ai-wmr/Audio/Tutorials，并完全保持原有的文件夹结构（例如：源文件在 Videos/Tutorials/xxx/yyy/abc.mp4，则输出必须是 Audio/Tutorials/xxx/yyy/abc.mp3）。
+3. 输出路径为 /home/admin/Audio/Tutorials，并完全保持原有的文件夹结构（例如：源文件在 Videos/Tutorials/xxx/yyy/abc.mp4，则输出必须是 Audio/Tutorials/xxx/yyy/abc.mp3）。
 4. 如果目标子目录不存在，请自动创建。
 5. mp3 文件名必须与原 mp4 文件名完全一致，仅将扩展名改为 .mp3。
 6. 批量处理所有文件，完成后告诉我总共转换了多少个文件以及是否全部成功。
