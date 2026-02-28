@@ -17,6 +17,7 @@ Description: 这段代码是一个基于 Python 的自动化视频转音频（MP
 
 # 基础用法
 # python scripts\extract.py "F:\Videos" "F:\Audio"
+# python scripts/extract.py "/home/admin/Videos" "/home/admin/Audio"
 # .\venv\scripts\python -c "import torch; import torchvision; print(torch.__version__, torchvision.__version__)"
 # .\venv\Scripts\python -c "import torch; print('版本:', torch.__version__); print('GPU可用:', torch.cuda.is_available()); print('GPU名称:', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'CPU')"
 

@@ -90,6 +90,11 @@ C:\Users\Administrator\.agents\skills\mp4-to-mp3-extractor\
 cd D:\openclaw-2026.2.14\
 node openclaw.mjs gateway
 
+#基础用法
+cd ../skills/mp4-to-mp3-extractor/
+python scripts\extract.py "F:\Videos" "F:\Audio"
+python scripts/extract.py "/home/admin/Videos" "/home/admin/Audio"
+
 #现在你可以在聊天界面里直接对你的 Agent 说：
 请严格使用 skills 列表中的「mp4-to-mp3-extractor」技能完成以下任务：
 1. 递归遍历源目录 /home/admin/Videos/Tutorials 下所有 .mp4 文件（包括所有子文件夹）。
