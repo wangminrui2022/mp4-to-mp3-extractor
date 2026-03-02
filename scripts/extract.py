@@ -4,7 +4,7 @@
 """
 Skill Name: MP4 to MP3 Extractor for OpenClaw
 Author: 王岷瑞/https://github.com/wangminrui2022
-License: MIT License
+License: Apache License
 Description: 这段代码是一个基于 Python 的自动化视频转音频（MP4 转 MP3）提取工具。
 它不仅实现了核心的转换功能，还集成了一套生产级的环境管理和日志监控机制。
 1、该程序的主要任务是遍历指定的源目录，将其中的所有 .mp4 视频文件通过 FFmpeg 工具提取为高质量的 .mp3 音频文件（192kbps），并保持原有的目录结构输出到目标文件夹。

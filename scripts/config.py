@@ -4,7 +4,7 @@
 """
 Skill Name: MP4 to MP3 Extractor for OpenClaw
 Author: 王岷瑞/https://github.com/wangminrui2022
-License: MIT License
+License: Apache License
 Description: 这段代码是一个典型的 Python 项目路径管理模块。
 它利用 pathlib 库实现了一套自动化的路径解析方案，旨在解决硬编码（Hardcoding）路径带来的跨平台兼容性差和维护困难等问题。
 这段代码的核心逻辑是**“以当前文件为基准，向上溯源寻找根目录”**。

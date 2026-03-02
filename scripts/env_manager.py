@@ -4,7 +4,7 @@
 """
 Skill Name: MP4 to MP3 Extractor for OpenClaw
 Author: 王岷瑞/https://github.com/wangminrui2022
-License: MIT License
+License: Apache License
 Description: 这段代码是一个 Python 脚本的环境初始化与自动化配置模块。
 它主要用于确保程序在正确的 Python 版本和虚拟环境中运行，并能根据用户的硬件（特别是 NVIDIA GPU）自动安装适配的 PyTorch 及其相关音频处理依赖。
 该脚本充当了程序的“引导加载程序”（Bootstrapper），主要完成以下四项任务：

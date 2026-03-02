@@ -4,7 +4,7 @@
 """
 Skill Name: MP4 to MP3 Extractor for OpenClaw
 Author: 王岷瑞/https://github.com/wangminrui2022
-License: MIT License
+License: Apache License
 Description: 这段代码定义了一个名为 LoggerManager 的类，专门用于自动化配置和管理日志系统。
 它通过封装 Python 的 logging 模块，为项目提供了一个既能输出到控制台，又能自动按天滚动保存的日志工具。
 智能目录管理：利用 pathlib 自动检查并创建日志目录（LOG_DIR），防止因文件夹不存在而报错。
