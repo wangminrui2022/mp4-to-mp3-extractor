@@ -2,7 +2,7 @@
 # -*- coding: utf-8, -*-
 
 """
-Skill Name: MP4 to MP3 Extractor for OpenClaw
+Skill Name: MP4-To-MP3-Extractor
 Author: 王岷瑞/https://github.com/wangminrui2022
 License: Apache License
 Description: 这段代码定义了一个名为 LoggerManager 的类，专门用于自动化配置和管理日志系统。
@@ -23,7 +23,7 @@ from config import LOG_DIR
 
 class LoggerManager:
     @staticmethod
-    def setup_logger(logger_name: str = "PureVocals_UVR_Automator", log_filename: str = "skill_execution.log"):
+    def setup_logger(logger_name: str = "log", log_filename: str = "skill_execution.log"):
         """
         初始化并配置日志记录器
         :param log_dir: 日志保存目录 (Path 对象)

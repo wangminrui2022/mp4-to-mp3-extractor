@@ -2,7 +2,7 @@
 # -*- coding: utf-8, -*-
 
 """
-Skill Name: MP4 to MP3 Extractor for OpenClaw
+Skill Name: MP4-To-MP3-Extractor
 Author: 王岷瑞/https://github.com/wangminrui2022
 License: Apache License
 Description: 自动安装缺失 Python 包的便捷工具函数（国内清华镜像加速）
