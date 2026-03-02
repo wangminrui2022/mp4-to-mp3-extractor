@@ -119,8 +119,8 @@ def setup_venv():
                         cuda_ver = cuda_match.group(1)
                     # 提取 GPU Name（确认有 GPU）
                     if "NVIDIA" in output and cuda_ver != "unknown":
-                        #has_gpu = True
-                        has_gpu = False#FFmpeg使用CPU即可
+                        has_gpu = True
+                        #has_gpu = False#FFmpeg使用CPU即可
                         logger.info(f"✅ 检测到 NVIDIA GPU！驱动: {driver}，CUDA: {cuda_ver}")
             except Exception as e:
                 logger.warning(f"nvidia-smi 执行失败: {e}")

@@ -26,21 +26,10 @@ import subprocess
 from pathlib import Path
 from logger_manager import LoggerManager
 import env_manager
-# ==================== 自动安装 tqdm ====================
-try:
-    from tqdm import tqdm  # 1. 导入 tqdm
-except ImportError:
-    print("🔍 检测到缺少 tqdm 模块，正在自动安装...")
-    try:
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "tqdm"])
-        print("✅ pydub 安装成功！")
-        from tqdm import tqdm
-    except Exception as e:
-        print(f"❌ 自动安装失败: {e}")
-        print("请手动执行以下命令后再运行脚本：")
-        print("python -m pip install tqdm")
-        sys.exit(1)
-# ======================================================
+import ensure_package
+ensure_package.pip("tqdm", "tqdm")
+# 现在添加所有导入语句
+from tqdm import tqdm
 
 # --- 日志系统初始化 ---
 logger = LoggerManager.setup_logger(logger_name="mp4-to-mp3-extractor")

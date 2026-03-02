@@ -28,7 +28,7 @@ class ProjectPaths:
     """
     SCRIPT_PATH = _BASE_PATH
     SKILL_ROOT = _BASE_PATH.parent.parent
-    VENV_DIR = SKILL_ROOT / "venv"
+    VENV_DIR = _BASE_PATH.parent.parent.parent / "venv" #venv虚拟环境目录在skills/venv通用目录
     DATA_DIR = SKILL_ROOT / "data"
     LOG_DIR = SKILL_ROOT / "logs"
     MODEL_DIR = SKILL_ROOT / "models"      # 模型下载目录
