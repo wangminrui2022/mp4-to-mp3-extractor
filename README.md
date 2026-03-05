@@ -1,105 +1,78 @@
-# 🎵 OpenClaw Skills: MP4 to MP3 Extractor
+# **🎵 MP4 to MP3 Extractor (OpenClaw Skill)**
 
-[![OpenClaw Skills](https://img.shields.io/badge/OpenClaw-Skill-blue.svg)](https://github.com/openclaw/openclaw)
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![FFmpeg](https://img.shields.io/badge/FFmpeg-Required-orange.svg)](https://ffmpeg.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+**高效、智能的本地音频提取工具** 这是一个为 [OpenClaw](https://github.com/openclaw/openclaw) 量身定制的自动化 Skill。它能递归扫描目录，利用 FFmpeg 将 .mp4 视频提取为高质量 .mp3 音频，同时**完美保留原始文件夹层级结构**。
 
-这是一个为 [OpenClaw](https://github.com/openclaw/openclaw) 量身定制的本地自动化 Skills。它能批量扫描指定目录及其子目录下的 `.mp4` 视频文件，并利用 `ffmpeg` 高效提取出 `.mp3` 音频。
+## **✨ 核心特性**
 
-最核心的亮点是：它不仅能**完美保留原始的文件夹多级层级结构**，还具备**自引导（Self-bootstrapping）能力**，能够全自动创建和管理 Python 虚拟环境，实现真正的“开箱即用”。
+* **📂 完美的结构保持**：自动映射源目录的多级子文件夹到目标目录，确保输出井然有序。  
+* **🤖 自动化环境 (Self-bootstrapping)**：  
+  * 首次运行自动创建 venv 虚拟环境。  
+  * 智能兼容 Windows (Scripts/python.exe) 与 Linux/macOS 环境。  
+  * 隔离运行，不污染全局 Python 环境。  
+* **⚡ 工业级音频处理**：直接调用系统级 FFmpeg，默认输出 **192kbps** 高质量音频。  
+* **📝 智能日志系统**：采用滚动日志技术，**仅保留最近 3 天记录**，平衡审计需求与磁盘空间。  
+* **🧠 语义化调用**：深度集成 OpenClaw，Agent 可精准理解意图并自动推断路径。
 
----
+## **🛠️ 环境依赖 (必读)**
 
-## ✨ 核心特性
+在运行此 Skill 之前，请确保宿主机已安装：
 
-* **📂 完美的结构保持**：自动将源目录的多级子文件夹原样映射到目标目录，文件再多也不会乱。
-* **🤖 自动化虚拟环境 (venv)**：
-  * 首次运行时，脚本会自动检测并执行 `python -m venv venv`。
-  * 智能兼容 Windows (`Scripts/python.exe`) 与 Linux/macOS (`bin/python`) 环境路径。
-  * 零侵入性，绝不污染你的全局 Python 环境。
-* **⚡ 高效无损提取**：直接调用系统原生的 `ffmpeg` 进行处理，默认输出 192kbps 的高质量音频。
-* **📝 工业级日志审计**：
-  * **全流程记录**：从环境创建、文件扫描到每一个转换细节，均有据可查。
-  * **自动循环清理**：采用滚动日志技术，**仅保留最近 3 天的记录**，防止磁盘爆满。
-* **🧠 深度集成 OpenClaw**：通过精心编写的 `SKILL.md`，Agent 能够精准理解意图并自动推断缺省的目标路径。
+1. **Python 3.8+**（建议安装 python3-venv 支持）。  
+2. **FFmpeg**：必须添加到系统环境变量 PATH 中。  
+   * *验证：终端输入 ffmpeg \-version 有输出即视为正常。*
 
----
+**⚠️ 常见排错：若 Skill 状态显示为 blocked**
 
-## 🛠️ 前置要求
+这通常是因为 OpenClaw 找不到 python 路径。
 
-在运行此 Skills 之前，请确保宿主机（运行 OpenClaw 的机器）已安装以下系统级依赖：
+**修复步骤 (Linux示例)：**
 
-1. **Python 3.8 或更高版本**
-   
-   > **🚧 常见排错：Skill 状态显示为 `blocked` 而非 `eligible`？**
-   > 
-   > 插件安装后如果状态为 `blocked`，通常是因为 OpenClaw 的后台环境找不到 `python` 命令，或者缺少系统级的虚拟环境支持包。你可以通过建立标准路径的软链接并安装 `venv` 模块来解决。
-   > 
-   > **修复步骤：**
-   > *(注意：以下命令中的 `/usr/local/python312/bin/python3` 为示例 Python 安装路径，请务必根据你的实际安装路径进行替换。)*
-   > 
-   > ```bash
-   > # 1. 安装虚拟环境支持 (Debian/Ubuntu 系统必备)
-   > sudo apt update
-   > sudo apt install python3-venv
-   > 
-   > # 2. 建立软链接，确保 OpenClaw 能在标准路径下找到 python 命令
-   > sudo ln -s /usr/local/python312/bin/python3 /usr/local/python312/bin/python
-   > sudo ln -s /usr/local/python312/bin/python3 /usr/bin/python
-   > 
-   > # 3. 重启 OpenClaw 服务，使新的环境变量和路径生效
-   > systemctl --user restart openclaw-gateway
-   > ```
-2. **FFmpeg**: 必须将其添加到系统的环境变量 (PATH) 中。
-   * *验证方法：在终端中输入 `ffmpeg -version` 和 `python --version`，若能正常输出版本号即可。*
+\# 1\. 安装 venv 支持  
+sudo apt update && sudo apt install python3-venv  
+\# 2\. 建立软链接 (路径请根据实际 Python 安装位置修改)  
+sudo ln \-s /usr/bin/python3 /usr/bin/python  
+\# 3\. 重启服务  
+systemctl \--user restart openclaw-gateway
 
----
+## **🚀 安装指南**
 
-## 🚀 安装指南
+### **1\. 自动安装 (CLI)**
 
-将本仓库克隆到你的 OpenClaw 工作区的 `skills/` 目录下即可：
+根据你的环境执行以下命令：
 
-```bash
-# 进入你的 OpenClaw skills 目录
-cd /opt/openclaw-2026.2.14  # 视你的实际安装路径而定
+**Linux / macOS:**
 
-# 安装skills
-npx skills add https://github.com/wangminrui2022/mp4-to-mp3-extractor
-选项：
-Installation scope 选择 Global
-Installation method 选择 Copy to all agents (Independent copies for each agent)
+\# 视实际安装路径而定  
+npx skills add \[https://github.com/wangminrui2022/mp4-to-mp3-extractor\](https://github.com/wangminrui2022/mp4-to-mp3-extractor)
 
-# 安装完成在以下两个目录可以看到该技能，Installation scope 选择 Global、Project（admin是当前系统登录用户名）
-ls ~/.openclaw/skills/mp4-to-mp3-extractor/
-ls /home/admin/.agents/skills/mp4-to-mp3-extractor/
-ls /opt/openclaw-2026.2.14/skills/mp4-to-mp3-extractor/
-ls /home/admin/.openclaw/skills/mp4-to-mp3-extractor/
+**Windows:**
 
-#windows本地安装命令
-下载到本地磁盘并解压 https://github.com/wangminrui2022/mp4-to-mp3-extractor.git
-cd D:\openclaw-2026.2.14\
-npx skills add D:\mp4-to-mp3-extractor
+npx skills add D:\\path\\to\\mp4-to-mp3-extractor
 
-#安装完后目录，日志可在该目录查看👀
-C:\Users\Administrator\.openclaw\skills\mp4-to-mp3-extractor\
-D:\openclaw-2026.2.14\skills\mp4-to-mp3-extractor\
-C:\Users\Administrator\.agents\skills\mp4-to-mp3-extractor\
+### **2\. 重启生效**
 
-#重启openclaw
-cd D:\openclaw-2026.2.14\
-node openclaw.mjs gateway
+安装完成后，进入 OpenClaw 目录重启 Gateway 即可在技能列表中看到它。
 
-#基础用法
-cd ../skills/mp4-to-mp3-extractor/
-python scripts\extract.py "F:\Videos" "F:\Audio"
-python scripts/extract.py "/home/admin/Videos" "/home/admin/Audio"
+## **💻 使用方法**
 
-#现在你可以在聊天界面里直接对你的 Agent 说：
-请严格使用 skills 列表中的「mp4-to-mp3-extractor」技能完成以下任务：
-1. 递归遍历源目录 /home/admin/Videos/Tutorials 下所有 .mp4 文件（包括所有子文件夹）。
-2. 对每个找到的 .mp4 文件，使用 mp4-to-mp3-extractor 技能提取音频，转换为 .mp3 文件。
-3. 输出路径为 /home/admin/Audio/Tutorials，并完全保持原有的文件夹结构（例如：源文件在 Videos/Tutorials/xxx/yyy/abc.mp4，则输出必须是 Audio/Tutorials/xxx/yyy/abc.mp3）。
-4. 如果目标子目录不存在，请自动创建。
-5. mp3 文件名必须与原 mp4 文件名完全一致，仅将扩展名改为 .mp3。
-6. 批量处理所有文件，完成后告诉我总共转换了多少个文件以及是否全部成功。
+### **命令行手动测试**
+
+\# 进入技能目录  
+cd \~/.openclaw/skills/mp4-to-mp3-extractor/
+
+\# 运行转换脚本 (Linux)  
+python scripts/extract.py "/path/to/videos" "/path/to/audio"
+
+\# 运行转换脚本 (Windows)  
+python scripts\\extract.py "F:\\Videos" "F:\\Audio"
+
+### **在 OpenClaw 聊天中下令**
+
+你可以直接对你的 Agent 说：
+
+“使用 **mp4-to-mp3-extractor** 技能，将 /home/admin/Videos 目录下的所有视频转换为 MP3，输出到 /home/admin/Audio，注意要保持文件夹结构。”
+
+## **📁 存储说明**
+
+* **代码目录**：\~/.openclaw/skills/mp4-to-mp3-extractor/  
+* **日志查看**：执行过程中的详细日志可在技能目录下的 logs/ 文件夹中找到。
