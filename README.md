@@ -66,11 +66,11 @@ python scripts/extract.py "/path/to/videos" "/path/to/audio"
 \# 运行转换脚本 (Windows)  
 python scripts\\extract.py "F:\\Videos" "F:\\Audio"
 
-### **在 OpenClaw 聊天中下令**
+### **在 OpenClaw 聊天中**
 
 你可以直接对你的 Agent 说：
 
-“请使用 mp4-to-mp3-extractor 技能，将 "F:\命理学" 目录下的所有视频转换为 MP3，输出到 "F:\命理学-音频"。”
+请使用 mp4-to-mp3-extractor 技能，将 "F:\命理学" 目录下的所有视频转换为 MP3，输出到 "F:\命理学-音频"。
 
 ## **📁 存储说明**
 

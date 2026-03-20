@@ -17,6 +17,8 @@ Description: 这段代码是一个基于 Python 的自动化视频转音频（MP
 
 # 基础用法
 # python scripts\extract.py "F:\命理学" "F:\命理学-音频"
+
+#在 OpenClaw 聊天中
 # 请使用 mp4-to-mp3-extractor 技能，将 "F:\命理学" 目录下的所有视频转换为 MP3，输出到 "F:\命理学-音频"。
 
 import os
