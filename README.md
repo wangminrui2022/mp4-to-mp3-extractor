@@ -70,7 +70,7 @@ python scripts\\extract.py "F:\\Videos" "F:\\Audio"
 
 你可以直接对你的 Agent 说：
 
-“使用 **mp4-to-mp3-extractor** 技能，将 /home/admin/Videos 目录下的所有视频转换为 MP3，输出到 /home/admin/Audio，注意要保持文件夹结构。”
+“请使用 mp4-to-mp3-extractor 技能，将 "F:\命理学" 目录下的所有视频转换为 MP3，输出到 "F:\命理学-音频"。”
 
 ## **📁 存储说明**
 

@@ -16,23 +16,50 @@ Description: 这段代码是一个基于 Python 的自动化视频转音频（MP
 """
 
 # 基础用法
-# python scripts\extract.py "F:\Videos" "F:\Audio"
-# python scripts/extract.py "/home/admin/Videos" "/home/admin/Audio"
-# .\venv\scripts\python -c "import torch; import torchvision; print(torch.__version__, torchvision.__version__)"
-# .\venv\Scripts\python -c "import torch; print('版本:', torch.__version__); print('GPU可用:', torch.cuda.is_available()); print('GPU名称:', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'CPU')"
+# python scripts\extract.py "F:\命理学" "F:\命理学-音频"
+# 请使用 mp4-to-mp3-extractor 技能，将 "F:\命理学" 目录下的所有视频转换为 MP3，输出到 "F:\命理学-音频"。
 
+import os
 import sys
 import subprocess
+from pydub import AudioSegment
 from pathlib import Path
 from logger_manager import LoggerManager
 import env_manager
 import ensure_package
 ensure_package.pip("tqdm", "tqdm")
+ensure_package.pip("ffmpeg-downloader")
 # 现在添加所有导入语句
 from tqdm import tqdm
+import ffmpeg_downloader as ffdl
+import importlib
 
 # --- 日志系统初始化 ---
 logger = LoggerManager.setup_logger(logger_name="mp4-to-mp3-extractor")
+
+def ensure_ffmpeg():
+    """自动检测 + 下载 ffmpeg（已彻底修复 --quiet 错误 + 更稳定）"""
+    # 关键修复：判断 None + 移除 --quiet
+    if ffdl.ffmpeg_path is None or not os.path.exists(ffdl.ffmpeg_path):
+        logger.info("⚠️  未检测到 ffmpeg，正在自动下载便携版到本地（只需一次，约 100-200MB）...")
+        logger.info("   下载来源：Windows=gyan.dev | Linux=johnvansickle | macOS=evermeet")
+        
+        # 🔥 关键：自动输入 Y（默认 yes），彻底无交互
+        logger.info("   自动确认下载中...")
+        subprocess.run(["ffdl", "install"], input="Y\n", text=True, check=True)
+        
+        # 下载完后刷新模块
+        importlib.reload(ffdl)
+        
+        logger.info("✅ 下载 + 安装完成！") 
+        #C:\Users\Administrator\AppData\Local\ffmpegio\ffmpeg-downloader\ffmpeg\bin
+
+    # 添加到 PATH + 强制 pydub 使用
+    ffdl.add_path()
+    AudioSegment.converter = ffdl.ffmpeg_path
+
+    logger.info(f"✅ ffmpeg 已就绪 → {ffdl.ffmpeg_path}")
+    return True
 
 def extract_audio(src_dir, dest_dir):
     src_path = Path(src_dir).resolve()
@@ -64,7 +91,7 @@ def extract_audio(src_dir, dest_dir):
         
         # 3. 更新进度条左侧的动态描述（可选，显示当前文件名）
         pbar.set_postfix_str(f"正在处理: {mp4_file.name[:20]}...")
-        
+        logger.info(f"正在处理: {mp4_file.name[:50]}...")
         try:
             out_file.parent.mkdir(parents=True, exist_ok=True)
             
@@ -98,12 +125,12 @@ def extract_audio(src_dir, dest_dir):
     pbar.close() # 显式关闭
     
     logger.info(f"--- 任务结束: 成功 {success}, 失败 {fail} ---")
-    print(f"\n[结果反馈] 成功: {success} | 失败: {fail}")
 
 if __name__ == "__main__":
     env_manager.check_python_version()
     env_manager.setup_venv()# 必须最先执行（包含 GPU 自动检测）
-    
+    ensure_ffmpeg()
+
     if len(sys.argv) < 3:
         print("用法: python extract.py <源目录> <目标目录>")
         sys.exit(1)

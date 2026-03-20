@@ -7,7 +7,6 @@ metadata:
   openclaw:
     requires:
       bins:
-        - ffmpeg
         - python
 ---
 
