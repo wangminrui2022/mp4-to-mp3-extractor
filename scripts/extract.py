@@ -15,12 +15,6 @@ Description: 这段代码是一个基于 Python 的自动化视频转音频（MP
 6、非阻塞式命令执行：使用 subprocess.run 调用系统级 FFmpeg，并实时捕获错误输出（stderr）以便在日志中记录具体的转换失败原因。
 """
 
-# 基础用法
-# python scripts\extract.py "F:\命理学" "F:\命理学-音频"
-
-#在 OpenClaw 聊天中
-# 请使用 mp4-to-mp3-extractor 技能，将 "F:\命理学" 目录下的所有视频转换为 MP3，输出到 "F:\命理学-音频"。
-
 import os
 import sys
 import subprocess
