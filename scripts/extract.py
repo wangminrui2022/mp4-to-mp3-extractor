@@ -127,8 +127,15 @@ if __name__ == "__main__":
     env_manager.setup_venv()# 必须最先执行（包含 GPU 自动检测）
     ensure_ffmpeg()
 
-    if len(sys.argv) < 3:
-        print("用法: python extract.py <源目录> <目标目录>")
+    if len(sys.argv) < 2:
+        print("用法: python extract.py <源目录> [目标目录]")
         sys.exit(1)
-        
-    extract_audio(sys.argv[1], sys.argv[2])
+
+    src_dir = sys.argv[1]
+
+    # 如果没传目标目录，自动生成
+    if len(sys.argv) >= 3:
+        dst_dir = sys.argv[2]
+    else:
+        dst_dir = str(Path(src_dir).parent / f"{Path(src_dir).name}_audio")#输出目录和源目录在同一层级
+    extract_audio(src_dir, dst_dir)
