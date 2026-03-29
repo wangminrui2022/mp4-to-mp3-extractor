@@ -18,13 +18,14 @@ Description: 这段代码是一个基于 Python 的自动化视频转音频（MP
 import os
 import sys
 import subprocess
-from pydub import AudioSegment
 from pathlib import Path
 from logger_manager import LoggerManager
 import env_manager
 import ensure_package
 ensure_package.pip("tqdm", "tqdm")
 ensure_package.pip("ffmpeg-downloader")
+ensure_package.pip("pydub", "pydub", "AudioSegment")
+from pydub import AudioSegment
 # 现在添加所有导入语句
 from tqdm import tqdm
 import ffmpeg_downloader as ffdl
