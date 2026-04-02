@@ -96,103 +96,103 @@ def setup_venv():
         subprocess.check_call([str(venv_python), "-m", "pip", "install", "--upgrade", "pip"])
 
     # ==================== 检查 PyTorch GPU 是否已安装 ====================
-    if Path(venv_python).exists() and is_torch_gpu_installed(venv_python):
-        logger.info("✅ 虚拟环境中已有 GPU 版 PyTorch，无需重新安装")
-    else:
-        logger.info("ℹ️ 虚拟环境中 PyTorch 不是 GPU 版本，将重新安装 GPU 版")
-        # ==================== 修复版 GPU 检测（解析完整 nvidia-smi） ====================
-        logger.info("检测 GPU 和 CUDA 版本...")
-        has_gpu = False
-        cuda_ver = "unknown"
-        driver = "unknown"
+    # if Path(venv_python).exists() and is_torch_gpu_installed(venv_python):
+    #     logger.info("✅ 虚拟环境中已有 GPU 版 PyTorch，无需重新安装")
+    # else:
+    #     logger.info("ℹ️ 虚拟环境中 PyTorch 不是 GPU 版本，将重新安装 GPU 版")
+    #     # ==================== 修复版 GPU 检测（解析完整 nvidia-smi） ====================
+    #     logger.info("检测 GPU 和 CUDA 版本...")
+    #     has_gpu = False
+    #     cuda_ver = "unknown"
+    #     driver = "unknown"
 
-        nvidia_smi_path = shutil.which("nvidia-smi")
-        if not nvidia_smi_path:
-            possible_paths = [
-                r"C:\Windows\System32\nvidia-smi.exe",  # 你的路径
-                r"C:\Program Files\NVIDIA Corporation\NVSMI\nvidia-smi.exe",
-                "/usr/bin/nvidia-smi",  # Ubuntu
-                "/usr/local/cuda/bin/nvidia-smi",
-            ]
-            for p in possible_paths:
-                if os.path.exists(p):
-                    nvidia_smi_path = p
-                    break
+    #     nvidia_smi_path = shutil.which("nvidia-smi")
+    #     if not nvidia_smi_path:
+    #         possible_paths = [
+    #             r"C:\Windows\System32\nvidia-smi.exe",  # 你的路径
+    #             r"C:\Program Files\NVIDIA Corporation\NVSMI\nvidia-smi.exe",
+    #             "/usr/bin/nvidia-smi",  # Ubuntu
+    #             "/usr/local/cuda/bin/nvidia-smi",
+    #         ]
+    #         for p in possible_paths:
+    #             if os.path.exists(p):
+    #                 nvidia_smi_path = p
+    #                 break
 
-        if nvidia_smi_path:
-            try:
-                # 运行完整 nvidia-smi 并解析输出
-                result = subprocess.run(
-                    [nvidia_smi_path],
-                    capture_output=True, text=True, timeout=10
-                )
-                if result.returncode == 0 and result.stdout:
-                    output = result.stdout
-                    # 提取 Driver Version
-                    driver_match = re.search(r"Driver Version:\s*([\d.]+)", output)
-                    if driver_match:
-                        driver = driver_match.group(1)
-                    # 提取 CUDA Version
-                    cuda_match = re.search(r"CUDA Version:\s*([\d.]+)", output)
-                    if cuda_match:
-                        cuda_ver = cuda_match.group(1)
-                    # 提取 GPU Name（确认有 GPU）
-                    if "NVIDIA" in output and cuda_ver != "unknown":
-                        has_gpu = True
-                        #has_gpu = False#FFmpeg使用CPU即可
-                        logger.info(f"✅ 检测到 NVIDIA GPU！驱动: {driver}，CUDA: {cuda_ver}")
-            except Exception as e:
-                logger.warning(f"nvidia-smi 执行失败: {e}")
+    #     if nvidia_smi_path:
+    #         try:
+    #             # 运行完整 nvidia-smi 并解析输出
+    #             result = subprocess.run(
+    #                 [nvidia_smi_path],
+    #                 capture_output=True, text=True, timeout=10
+    #             )
+    #             if result.returncode == 0 and result.stdout:
+    #                 output = result.stdout
+    #                 # 提取 Driver Version
+    #                 driver_match = re.search(r"Driver Version:\s*([\d.]+)", output)
+    #                 if driver_match:
+    #                     driver = driver_match.group(1)
+    #                 # 提取 CUDA Version
+    #                 cuda_match = re.search(r"CUDA Version:\s*([\d.]+)", output)
+    #                 if cuda_match:
+    #                     cuda_ver = cuda_match.group(1)
+    #                 # 提取 GPU Name（确认有 GPU）
+    #                 if "NVIDIA" in output and cuda_ver != "unknown":
+    #                     has_gpu = True
+    #                     #has_gpu = False#FFmpeg使用CPU即可
+    #                     logger.info(f"✅ 检测到 NVIDIA GPU！驱动: {driver}，CUDA: {cuda_ver}")
+    #         except Exception as e:
+    #             logger.warning(f"nvidia-smi 执行失败: {e}")
 
-        # ==================== 根据 CUDA 版本选 wheel ====================
-        index_url = "https://download.pytorch.org/whl/cpu"  # 默认 CPU
-        use_gpu = False
-        if has_gpu:
-            major_minor = '.'.join(cuda_ver.split('.')[:2])
-            cuda_map = {
-                "12.6": "cu126",
-                "12.7": "cu126",
-                "12.8": "cu128",
-                "12.9": "cu128",
-                "13.0": "cu129",
-                "13.1": "cu129",
-            }
-            wheel = cuda_map.get(major_minor, "cu121")  # 默认 cu121 for 13+
-            index_url = f"https://download.pytorch.org/whl/{wheel}"
-            use_gpu = True
-            logger.info(f"🎯 CUDA {cuda_ver} → 使用 {wheel} GPU 加速版")
+    #     # ==================== 根据 CUDA 版本选 wheel ====================
+    #     index_url = "https://download.pytorch.org/whl/cpu"  # 默认 CPU
+    #     use_gpu = False
+    #     if has_gpu:
+    #         major_minor = '.'.join(cuda_ver.split('.')[:2])
+    #         cuda_map = {
+    #             "12.6": "cu126",
+    #             "12.7": "cu126",
+    #             "12.8": "cu128",
+    #             "12.9": "cu128",
+    #             "13.0": "cu129",
+    #             "13.1": "cu129",
+    #         }
+    #         wheel = cuda_map.get(major_minor, "cu121")  # 默认 cu121 for 13+
+    #         index_url = f"https://download.pytorch.org/whl/{wheel}"
+    #         use_gpu = True
+    #         logger.info(f"🎯 CUDA {cuda_ver} → 使用 {wheel} GPU 加速版")
 
-        else:
-            logger.info("ℹ️ 未检测到 GPU，使用 CPU 版")
+    #     else:
+    #         logger.info("ℹ️ 未检测到 GPU，使用 CPU 版")
 
-        # 安装 PyTorch
-        logger.info("正在安装 PyTorch（~2-3GB，请耐心等待）...")
-        subprocess.check_call([
-            str(venv_python), "-m", "pip", "install", "torch", "torchvision", "torchaudio",
-            "--index-url", index_url
-        ])
+    #     # 安装 PyTorch
+    #     logger.info("正在安装 PyTorch（~2-3GB，请耐心等待）...")
+    #     subprocess.check_call([
+    #         str(venv_python), "-m", "pip", "install", "torch", "torchvision", "torchaudio",
+    #         "--index-url", index_url
+    #     ])
 
-        # 验证
-        verify = subprocess.run([
-            str(venv_python), "-c",
-            "import torch; "
-            "print('GPU可用' if torch.cuda.is_available() else '仅CPU'); "
-            "print('设备:', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'CPU')"
-        ], capture_output=True, text=True, timeout=30)
-        logger.info(f"PyTorch 验证结果: {verify.stdout.strip()}")
+    #     # 验证
+    #     verify = subprocess.run([
+    #         str(venv_python), "-c",
+    #         "import torch; "
+    #         "print('GPU可用' if torch.cuda.is_available() else '仅CPU'); "
+    #         "print('设备:', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'CPU')"
+    #     ], capture_output=True, text=True, timeout=30)
+    #     logger.info(f"PyTorch 验证结果: {verify.stdout.strip()}")
 
-        # 安装 audio-separator + librosa（你提到的）
-        if use_gpu:
-            logger.info("安装 audio-separator GPU 版 + librosa...")
-            subprocess.check_call([str(venv_python), "-m", "pip", "install", "audio-separator[gpu]", "librosa"])
-        else:
-            logger.info("安装 audio-separator CPU 版 + librosa...")
-            subprocess.check_call([str(venv_python), "-m", "pip", "install", "audio-separator[cpu]", "librosa"])
+    #     # 安装 audio-separator + librosa（你提到的）
+    #     if use_gpu:
+    #         logger.info("安装 audio-separator GPU 版 + librosa...")
+    #         subprocess.check_call([str(venv_python), "-m", "pip", "install", "audio-separator[gpu]", "librosa"])
+    #     else:
+    #         logger.info("安装 audio-separator CPU 版 + librosa...")
+    #         subprocess.check_call([str(venv_python), "-m", "pip", "install", "audio-separator[cpu]", "librosa"])
 
-        subprocess.check_call([str(venv_python), "-m", "pip", "install", "pydub"])
-        subprocess.check_call([str(venv_python), "-m", "pip", "install", "huggingface-hub[tqdm]"])
+    #     subprocess.check_call([str(venv_python), "-m", "pip", "install", "pydub"])
+    #     subprocess.check_call([str(venv_python), "-m", "pip", "install", "huggingface-hub[tqdm]"])
         
-        logger.info("✅ 虚拟环境及所有依赖安装完成！")
+    #     logger.info("✅ 虚拟环境及所有依赖安装完成！")
 
     # ==================== 关键修复：重新启动主脚本 ====================
     logger.info("🔄 正在切换到虚拟环境重新执行脚本...")
